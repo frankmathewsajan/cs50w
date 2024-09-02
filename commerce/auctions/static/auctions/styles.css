@@ -1,0 +1,22 @@
+body {
+    padding: 10px;
+}
+
+.resize {
+    visibility: visible !important;
+    max-height: 100%;
+    height: auto;
+}
+
+.listing-details {
+    line-height: 1.5;
+}
+
+.listing-details p {
+    margin-bottom: 1px;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.listing-details span {
+    font-weight: bold;
+}

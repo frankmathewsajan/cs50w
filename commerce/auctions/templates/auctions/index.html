@@ -1,0 +1,43 @@
+{% extends "auctions/layout.html" %}
+{% load static %}
+
+{% block body %}
+<h2>Active Listings</h2>
+
+<style>
+    .listing-image {
+        max-width: 100%;
+        height: auto;
+        margin-bottom: 10px;
+        position: relative;
+        visibility: visible !important;
+    }
+</style>
+<div class="container mt-5">
+    <div class="row">
+        {% for listing in listings %}
+        <div class="col-md-4 listing-item">
+            {% if listing.url != None %}
+            <img src="{{ listing.url }}" alt="{{ listing.title }}" class="listing-image">
+            {% else %}
+            <img src="{% static 'auctions/preview.png' %}" alt="Placeholder Image" height="200" width="300"
+                class="listing-image">
+            {% endif %}
+
+            <a href="{% url 'listings' listing.id %}">
+                <h3>{{ listing.title }}</h3>
+            </a>
+            <p>{{ listing.description }}</p>
+            <div class="listing-details">
+
+                <p>Status : <span class="">{% if listing.status %}Open {% else %}<span style='color: red;'>Closed</span>{% endif %}</span></p>
+                <p>Price : <span class="">$ {{listing.price}}</span></p>
+                <p>Category : <span class="">{{listing.category}}</span></p>
+                <p>Listed by : <span class="">{{listing.user}}</span></p>
+                <p>Created on : <span class="">{{listing.created_at}}</span></p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

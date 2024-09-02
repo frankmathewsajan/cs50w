@@ -1,0 +1,132 @@
+{% extends "auctions/layout.html" %}
+{% load static %}
+
+{% block body %}
+<div class="container">
+    {% if listing.status == False %}
+    <div class="alert alert-info" role="alert">
+        This listing is closed. Congratulations to {{ winner }} on the winning bid!
+    </div>
+    {% endif %}
+
+    <div class="row flex flex-wrap md:flex-row-reverse">
+        <div class="col-md-12 col-lg-6 lg:px-8 pt-4 px-4">
+            <h2 class="text-2xl">{{ listing.title }}</h2>
+            <p>{{ listing.description }}</p>
+            <div class="listing-details">
+                <p>
+                    {% if listing.status %}Status{% else %}Bidder{% endif %} : 
+                    <span class="">
+                        {% if listing.status %}Open{% else %}{{ winner }}{% endif %}
+                    </span>
+                </p>
+                <p>
+                    {% if listing.status %}Price{% else %}Winning Bid{% endif %} :
+                    <span class="">$ {{ listing.price }}</span>
+                </p>
+                <p>Category : <span class="">{{ listing.category }}</span></p>
+                <p>Listed by : <span class="">{{ listing.user }}</span></p>
+                <p>Created on : <span class="">{{ listing.created_at }}</span></p>
+            </div>
+
+            {% if user.is_authenticated and listing.status %}
+            <div class="d-flex mt-3">
+                <form action="{% url 'watchlist' listing.id %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-info {% if listing in user.watchlist %}active{% endif %}">
+                        {{ btn_text_watch }} <i class="fa fa-eye"></i> 
+                    </button>
+                </form>
+                {% if toggle_status %}
+                <form action="{% url 'close' listing.id  %}" style="margin-left: 5%;" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-{{ color }} {% if listing in user.watchlist %}active{% endif %}">
+                        {{ btn_text_status }} <i class="fa fa-door-open"></i>
+                    </button>
+                </form>
+                {% endif %}
+            </div>
+
+            <form class="mt-3" action="{% url 'bid' listing.id %}" method="POST">
+                {% csrf_token %}
+                {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                    <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                <div class="form-group d-flex justify-content-start">
+                    <input style="width: 70%;" placeholder="Enter Bid" type="number" class="form-control" id="bid"
+                        name="bid" required>
+                    <button type="submit" style="margin-left: 5%;" class="btn btn-outline-dark">Bid <i
+                            class="fa fa-dollar"></i></button>
+                </div>
+            </form>
+            {% endif %} 
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">User</th>
+                        <th scope="col">Amount</th>
+                        <th scope="col">Created on</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for bid in bids %}
+                    <tr>
+                        <th scope="row">{{ bid.id }}</th>
+                        <td>{{ bid.user.username }}</td>
+                        <td>$ {{ bid.amount }}</td>
+                        <td>{{ bid.created_at }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="4">No bids</td></tr> 
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+        </div>
+
+        <div class="col-md-12 col-lg-6 lg:px-8 px-4 lg:pt-0 pt-4">
+            {% if listing.url != None %}
+            <img src="{{ listing.url }}" alt="{{ listing.title }}" class="resize">
+            {% else %}
+            <img src="{% static 'auctions/preview.png' %}" alt="Placeholder Image" class="resize">
+            {% endif %}
+        </div>
+    </div>
+
+    <hr>
+    <div class="row">
+        <div class="col-md-8">
+            <h3>Comments:</h3>
+            {% if user.is_authenticated and listing.status %}
+            <form action="{% url 'comment' listing.id %}" method="POST">
+                {% csrf_token %}
+                <div class="form-group d-flex justify-content-start">
+                    <input style="width: 70%;" placeholder="Enter your comment..." type="text" class="form-control"
+                        id="content" name="content" required>
+                    <button type="submit" style="margin-left: 5%;" class="btn btn-outline-dark">Comment <i
+                            class="fa fa-edit"></i></button>
+                </div>
+            </form>
+            {% endif %}
+            <br>
+            {% for comment in comments %}
+            <div class="card mb-3">
+                <div class="card-header">
+                    {{ comment.user.username }} <small class="text-muted">{{ comment.created_at }}</small>
+                </div>
+                <div class="card-body">
+                    {{ comment.content }}
+                </div>
+            </div>
+            {% empty %}
+            No comments
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %} 

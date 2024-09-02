@@ -1,0 +1,30 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+
+
+
+<div class="container">
+    <div class="row flex flex-wrap md:flex-row-reverse">
+        <div class="col-md-12 col-lg-6 lg:px-8 pt-4 px-4">
+            <h2>New Listing</h2>
+            <form action="new" method="post">
+                {% csrf_token %}
+                
+                {% for field in form %}
+                    <div class="mb-3">
+                        <label for="title" class="form-label">{{field.label}}</label>
+                        {{ field }}
+                        {% if field.errors %}
+                            <div class="invalid-feedback">{{ field.errors.as_text }}</div>
+                        {% endif %}
+                  </div>
+                {% endfor %}
+            
+                <button type="submit" style='float: inline-end;' class="btn btn-outline-dark">Create Listing</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

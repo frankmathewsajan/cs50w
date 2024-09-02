@@ -1,0 +1,26 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+<div class="container mt-5">
+    <h2>Categories</h2>
+    <ul>
+        {% for category in categories %}
+        <li><a href="{% url 'category' category%}">{{category}}</a></li>
+        {% endfor %}
+    </ul>
+
+
+
+    {% if user.is_authenticated %}
+        <form method="post" action="{% url 'categories' %}">  
+            {% csrf_token %}
+            <div class="form-group d-flex justify-content-between col-4">
+                <input style='width: 85%;' placeholder="Enter New Category..." type="text" class="form-control" id="name"
+                    name="name" required>
+                <button type="submit" class="btn btn-outline-dark"><i class="fa fa-plus"></i></button>
+            </div>
+        </form>
+    {% endif %}
+
+</div>
+{% endblock %}

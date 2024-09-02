@@ -1,0 +1,22 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+
+<div class="container mt-5">
+    <h1>Listings in Watchlist: {{ watchlist.name }} </h1> 
+
+    {% if listings %}  {# Check if there are any listings #}
+        <ul>
+            {% for listing in listings %}
+                <li>
+                    <a href="{% url 'listings' listing.id %}"><h3>{{ listing.title }}</h3></a> 
+                    <p>{{ listing.description }} (${{ listing.price }})</p>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No listings found in this watchlist.</p>
+    {% endif %}
+</div>
+{% endblock %}
