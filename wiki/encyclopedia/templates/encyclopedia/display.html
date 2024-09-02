@@ -1,0 +1,20 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+    {{title}}
+{% endblock %}
+
+{% block body %}
+
+    <a href="{% url 'edit' title %}">
+        <button type="button" style='float: right;' class="m-5 btn btn-outline-dark">
+            Edit <i class="fas fa-pen"></i> 
+        </button>
+    </a>
+ 
+
+    {{content|safe}}
+
+    
+
+{% endblock %}

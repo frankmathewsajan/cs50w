@@ -1,0 +1,42 @@
+
+.q {
+    border-radius: 50px;
+    margin-bottom: 10px;
+    border-color: 0;
+    padding: 10px;
+}
+
+input[type="submit"] {
+    background-color: #f8f9fa;
+    border: 1px solid #f8f9fa;
+    border-radius: 4px;
+    color: #3c4043;
+    font-family: arial,sans-serif;
+    font-size: 14px;
+    margin: 11px 4px;
+    padding: 0 16px;
+    line-height: 27px;
+    height: 36px;
+    min-width: 54px;
+    text-align: center;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #f8f9fa;
+    border: 1px solid black;
+}
+
+input{
+    padding: 5px;
+    margin: 5px;
+}
+a {
+    display: inline-block;
+    line-height: 24px;
+    vertical-align: middle;
+    color: rgba(0,0,0,.87);
+    text-decoration: none;
+    font-family: arial,sans-serif;
+    padding: 10px;
+}

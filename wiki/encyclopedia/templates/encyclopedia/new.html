@@ -1,0 +1,24 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+    Encyclopedia
+{% endblock %}
+
+{% block body %}
+    <h1>{{head|safe}}</h1>
+
+    <form action="{% url action title %}" method="post" style="width: 75%;">
+        {% csrf_token %}
+        {{new_form}}
+        {% if error_message %}
+            <div class="m-2 text-danger">{{error_message}}</div>
+        {% endif %}
+        <div>
+            <button style='float: inline-end;' class="mt-2 btn btn-outline-dark" type="submit">
+                Save <i class="fa fa-save"></i> 
+            </button>
+        </div>        
+    </form>
+    
+
+{% endblock %}
